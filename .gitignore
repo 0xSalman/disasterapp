@@ -1,0 +1,5 @@
+### Exclude IDE files and target
+disasterapp.iml
+target
+.idea
+logs
