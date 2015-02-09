@@ -5,14 +5,12 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * Created by salman on 2014-11-15.
  */
 @Configuration
 @EnableAutoConfiguration
-@EnableAspectJAutoProxy
 @ComponentScan
 public class Application {
 

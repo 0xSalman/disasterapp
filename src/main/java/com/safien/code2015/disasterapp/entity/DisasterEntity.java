@@ -1,15 +1,16 @@
 package com.safien.code2015.disasterapp.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by salman on 2015-02-01.
  */
 @Document(collection = "disasters")
-public class DisastersEntity {
+public class DisasterEntity {
 
     @Id
     private String id;
@@ -18,18 +19,72 @@ public class DisastersEntity {
     private String eventSubGroup;
     private String eventType;
     private String place;
-    private Timestamp eventStartDate;
-    private Timestamp eventEndDate;
+    private Date eventStartDate;
+    private Date eventEndDate;
     private String comments;
     private int fatalities;
     private int injured;
     private int evacuated;
     private double estimatedTotalCost;
     private double normalizedTotalCost;
-    private double fedralDFFAPayments;
-    private double provincialDFFAPayments;
+    private double federalDFaaPayments;
+    private double provincialDFaaPayments;
+    private double provincialDepartmentPayments;
     private double municipalCosts;
     private double ogdCosts;
+    private double insurancePayments;
+    private double ngoPayments;
+    private int peopleAffected;
+    private double magnitude;
+    private Point geolocation;
+
+    public double getProvincialDepartmentPayments() {
+        return provincialDepartmentPayments;
+    }
+
+    public void setProvincialDepartmentPayments(double provincialDepartmentPayments) {
+        this.provincialDepartmentPayments = provincialDepartmentPayments;
+    }
+
+    public double getInsurancePayments() {
+        return insurancePayments;
+    }
+
+    public void setInsurancePayments(double insurancePayments) {
+        this.insurancePayments = insurancePayments;
+    }
+
+    public double getNgoPayments() {
+        return ngoPayments;
+    }
+
+    public void setNgoPayments(double ngoPayments) {
+        this.ngoPayments = ngoPayments;
+    }
+
+    public int getPeopleAffected() {
+        return peopleAffected;
+    }
+
+    public void setPeopleAffected(int peopleAffected) {
+        this.peopleAffected = peopleAffected;
+    }
+
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    public void setMagnitude(double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    public Point getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(Point geolocation) {
+        this.geolocation = geolocation;
+    }
 
     public String getId() {
         return id;
@@ -79,19 +134,19 @@ public class DisastersEntity {
         this.place = place;
     }
 
-    public Timestamp getEventStartDate() {
+    public Date getEventStartDate() {
         return eventStartDate;
     }
 
-    public void setEventStartDate(Timestamp eventStartDate) {
+    public void setEventStartDate(Date eventStartDate) {
         this.eventStartDate = eventStartDate;
     }
 
-    public Timestamp getEventEndDate() {
+    public Date getEventEndDate() {
         return eventEndDate;
     }
 
-    public void setEventEndDate(Timestamp eventEndDate) {
+    public void setEventEndDate(Date eventEndDate) {
         this.eventEndDate = eventEndDate;
     }
 
@@ -143,20 +198,20 @@ public class DisastersEntity {
         this.normalizedTotalCost = normalizedTotalCost;
     }
 
-    public double getFedralDFFAPayments() {
-        return fedralDFFAPayments;
+    public double getFederalDFaaPayments() {
+        return federalDFaaPayments;
     }
 
-    public void setFedralDFFAPayments(double fedralDFFAPayments) {
-        this.fedralDFFAPayments = fedralDFFAPayments;
+    public void setFederalDFaaPayments(double federalDFaaPayments) {
+        this.federalDFaaPayments = federalDFaaPayments;
     }
 
-    public double getProvincialDFFAPayments() {
-        return provincialDFFAPayments;
+    public double getProvincialDFaaPayments() {
+        return provincialDFaaPayments;
     }
 
-    public void setProvincialDFFAPayments(double provincialDFFAPayments) {
-        this.provincialDFFAPayments = provincialDFFAPayments;
+    public void setProvincialDFaaPayments(double provincialDFaaPayments) {
+        this.provincialDFaaPayments = provincialDFaaPayments;
     }
 
     public double getMunicipalCosts() {
