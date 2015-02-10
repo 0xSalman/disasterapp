@@ -40,7 +40,7 @@ def setupAppenders() {
 def setupLoggers() {
 	logger("com.safien.code2015", getLogLevel(), ["SPRINGBOOT"])
 //    logger("org.springframework.web.servlet", DEBUG, ["SPRINGBOOT"])
-    logger("org.springframework.data.mongodb.core", DEBUG, ["SPRINGBOOT"])
+//    logger("org.springframework.data.mongodb.core", DEBUG, ["SPRINGBOOT"])
 //	logger("springboot.test", getLogLevel(), ["STDOUT"])
 //	root(INFO, ["SPRINGBOOT"])
 }

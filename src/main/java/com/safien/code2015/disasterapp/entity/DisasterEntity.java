@@ -36,7 +36,7 @@ public class DisasterEntity {
     private double ngoPayments;
     private int peopleAffected;
     private double magnitude;
-    private Point geolocation;
+    private Point location;
 
     public double getProvincialDepartmentPayments() {
         return provincialDepartmentPayments;
@@ -78,12 +78,12 @@ public class DisasterEntity {
         this.magnitude = magnitude;
     }
 
-    public Point getGeolocation() {
-        return geolocation;
+    public Point getLocation() {
+        return location;
     }
 
-    public void setGeolocation(Point geolocation) {
-        this.geolocation = geolocation;
+    public void setLocation(Point location) {
+        this.location = location;
     }
 
     public String getId() {

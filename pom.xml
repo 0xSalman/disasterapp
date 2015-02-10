@@ -83,6 +83,10 @@
             <artifactId>google-maps-services</artifactId>
             <version>0.1.5</version>
         </dependency>
+	    <dependency>
+		    <groupId>org.thymeleaf</groupId>
+		    <artifactId>thymeleaf</artifactId>
+	    </dependency>
     </dependencies>
 
     <pluginRepositories>
