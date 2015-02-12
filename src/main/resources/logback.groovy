@@ -17,7 +17,7 @@ def setupAppenders() {
 		}
 	}
 
-	def logDir = "logs"//System.getProperty("logDir")
+	def logDir = System.getProperty("logDir")
 	def maxNumFile = numberOfFilesToKeep()
 	def maxFileSize = rollingFileSize()
 

@@ -14,8 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseDate;
 import org.supercsv.cellprocessor.ParseDouble;
@@ -106,7 +110,10 @@ public class IndexController {
 				DisasterEntity disaster;
 				while((disaster = csvBeanReader.read(DisasterEntity.class, beanFields, cellProcessors)) != null) {
 					disaster.setLocation(getCordForAddress(disaster.getPlace()));
-					disasterRepository.save(disaster);
+					// ignore bad data or addresses which couldn't be found
+					if (disaster.getLocation().getX() != 0 && disaster.getLocation().getX() != 0) {
+						disasterRepository.save(disaster);
+					}
 				}
 			}
 			return "Successfully uploaded data to database";
@@ -135,6 +142,20 @@ public class IndexController {
 //		data: JSON.stringify(array),
 	}
 
+	@RequestMapping(value = "/allDisasters", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<DisasterEntity>getAllDisasters() {
+
+		List<DisasterEntity> disasters = null;
+
+		try {
+			disasters = disasterRepository.findAll();
+		} catch (Exception e) {
+			logger.error("Error - ", e);
+		}
+
+		return disasters;
+	}
 
 	private Point getCordForAddress(String address) throws Exception {
 

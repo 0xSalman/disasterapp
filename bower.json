@@ -1,0 +1,47 @@
+{
+  "name": "disasterapp",
+  "version": "1.0",
+  "description": "Display Canadian disasters which have happened within last century",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "jquery-ui-map": "latest"
+  },
+  "cInstall": {
+    "folder": {
+      "js, map": "js/",
+      "css": "css/",
+      "otf, eot, svg, ttf, woff, woff2": "fonts/"
+    },
+    "option": {
+      "default": {
+        "folder": "src/main/resources/static"
+      }
+    },
+    "source": {
+      "bootstrap": {
+        "glyphicons-halflings-regular.*": "dist/fonts/*",
+        "bootstrap.min.js": "dist/js/bootstrap.min.js",
+        "bootstrap.min.css": "dist/css/bootstrap.min.css",
+        "bootstrap-theme.min.css": "dist/css/bootstrap-theme.min.css"
+      },
+      "jquery": {
+		"jquery.js": "dist/jquery.js",
+        "jquery.min.js": "dist/jquery.min.js",
+        "jquery.min.map": "dist/jquery.min.map"
+      },
+	  "jquery-ui-map": {
+		"jquery.ui.map.full.min.js": "ui/min/jquery.ui.map.full.min.js"
+	  }
+    }
+  }
+}
