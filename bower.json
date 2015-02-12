@@ -35,7 +35,6 @@
         "bootstrap-theme.min.css": "dist/css/bootstrap-theme.min.css"
       },
       "jquery": {
-		"jquery.js": "dist/jquery.js",
         "jquery.min.js": "dist/jquery.min.js",
         "jquery.min.map": "dist/jquery.min.map"
       },
