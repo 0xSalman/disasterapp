@@ -1,5 +1,7 @@
 package com.safien.code2015.disasterapp.entity;
 
+import com.safien.code2015.disasterapp.util.JsonDateSerializer;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -134,6 +136,7 @@ public class DisasterEntity {
         this.place = place;
     }
 
+	@JsonSerialize(using=JsonDateSerializer.class)
     public Date getEventStartDate() {
         return eventStartDate;
     }
@@ -142,6 +145,7 @@ public class DisasterEntity {
         this.eventStartDate = eventStartDate;
     }
 
+	@JsonSerialize(using=JsonDateSerializer.class)
     public Date getEventEndDate() {
         return eventEndDate;
     }

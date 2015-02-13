@@ -59,7 +59,7 @@ public class IndexController {
 //    @RequestMapping(value = "/login/{username}:{password}", method = RequestMethod.GET, produces = "application/json")
 
 
-	@RequestMapping(value = "/loaddata", method = RequestMethod.GET)
+	@RequestMapping(value = "loaddata", method = RequestMethod.GET)
 	public String loadData() {
 
 		try {
@@ -97,9 +97,11 @@ public class IndexController {
 					beanFields[i] = headerMap.get(header[i]);
 					if(beanFields[i].contains("Cost") || beanFields[i].contains("Payment") || beanFields[i].equals("magnitude")) {
 						cellProcessors[i] = new Optional(new ParseDouble());
-					} else if(beanFields[i].contains("Date")) {
+					}
+					else if(beanFields[i].contains("Date")) {
 						cellProcessors[i] = new Optional(new ParseDate("dd/MM/yyyy"));
-					} else if (beanFields[i].equals("fatalities") || beanFields[i].equals("injured") ||
+					}
+					else if (beanFields[i].equals("fatalities") || beanFields[i].equals("injured") ||
 							beanFields[i].equals("evacuated") || beanFields[i].equals("peopleAffected")) {
 						cellProcessors[i] = new Optional(new ParseInt());
 					} else {

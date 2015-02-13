@@ -28,12 +28,12 @@
 						<div class="form-group">
 							<fieldset>
 								<legend>Location:</legend>
-								<!--<div class="radio">
+								<div class="radio">
 									<label>
 										<input type="radio" name="locationOption" id="locationOption1" value="current">
 										Use Current
 									</label>
-								</div>-->
+								</div>
 								<div class="radio">
 									<label>
 										<input type="radio" name="locationOption" id="locationOption2" value="address">
@@ -188,12 +188,69 @@
 	<script type="application/javascript">
 		$(function() {
 
-			//after page is loaded:
-			//  1. get all disasters from server
-			//  2. display them on the maps
-			//  3. Upon search refresh markers with new data
+			var map;
 
-			var map = $('#jqueryMap').gmap();
+			$.getMap = function() {
+				$('#jqueryMap').gmap({'callback': function() {
+					map = this;
+				}});
+			}
+
+			$.addMarkers = function(data, args) {
+
+				var gMap = map.get('map');
+
+				// reset existing markers
+				map.clear('markers');
+
+				// add zoom and center
+				if(args.center == undefined) {
+					args.center = new google.maps.LatLng('51.253775','-85.32321389999998');
+				}
+				map.option('center', args.center);
+				map.option('zoom', args.zoom);
+
+				// add all markers
+				$.each(data, function(i, dataMarker) {
+
+					var marker = map.addMarker({
+						'position': new google.maps.LatLng(dataMarker.location.y, dataMarker.location.x),
+						'bounds': args.bounds
+					});
+					marker.click(function() {
+						$('#disasterModal').modal('show');
+						var keys = Object.keys(dataMarker);
+						$.each(keys, function(j, key) {
+							if (key != 'id' && key != 'location') {
+								$('#' + key).text(dataMarker[key]);
+							}
+						});
+					});
+
+					// add circle
+					/*if(args.bounds) {
+						var circle = new google.maps.Circle({
+							map: gMap,
+							'strokeWeight': 0,
+							'fillColor': "#008595",
+							'fillOpacity': 0.25,
+							'center': args.center,
+							'radius': parseInt(args.distance),
+							'clickable': false
+						});
+
+						map.addShape('Circle', {
+							'strokeWeight': 0,
+							'fillColor': "#008595",
+							'fillOpacity': 0.25,
+							'center': args.center,
+							'radius': parseInt(args.distance),
+							'clickable': false
+						});
+						circle.bindTo('center', marker, 'position');
+					}*/
+				});
+			}
 
 			$.codeAddress = function(address) {
 				var geocoder = new google.maps.Geocoder();
@@ -207,37 +264,7 @@
 				});
 			}
 
-			$.currentLocation = function() {
-				alert('got position');
-				return position;
-			}
-
-			$.loadMap = function(data, center) {
-
-				// reset existing markers
-				map.gmap('clear', 'markers');
-
-				$.each(data, function(i, marker) {
-					map.gmap('addMarker', {
-						'position': new google.maps.LatLng(marker.location.y, marker.location.x),
-						'bounds': true
-					}).click(function() {
-						$('#disasterModal').modal('show');
-						var keys = Object.keys(marker);
-						$.each(keys, function(j, key) {
-							if (key != 'id' && key != 'location') {
-								$('#' + key).text(marker[key]);
-							}
-						});
-					});
-				});
-
-				// set center and zoom
-				map.gmap({'center': center});
-				map.gmap('option', 'zoom', 4);
-			}
-
-			$.getDisasters = function(url, data, center) {
+			$.getDisasters = function(url, data, args) {
 				$.ajax({
 					url: url,
 					type: 'GET',
@@ -246,11 +273,7 @@
 					success: function (response, textStatus, jqXHR) {
 //						console.log(response[0]);
 //						console.log(Object.keys(response[0]));
-						// set default center point
-						if(center == undefined) {
-							center = new google.maps.LatLng('51.253775','-85.32321389999998');
-						}
-						$.loadMap(response, center);
+						$.addMarkers(response, args);
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
 						console.log('Error retrieving data from ' + url);
@@ -258,7 +281,8 @@
 				});
 			}
 
-			$.getDisasters('/allDisasters', null, null);
+			$.getMap();
+			$.getDisasters('/allDisasters', null, {center: null, zoom: 4, bounds: false});
 
 			$('form').on('submit', function(event) {
 
@@ -266,9 +290,9 @@
 
 				var locationOption = $("input[name='locationOption']:checked").val();
 				var distanceOption = $("input[name='distanceOption']:checked").val();
-				console.log(locationOption + ', ' + distanceOption);
+//				console.log(locationOption + ', ' + distanceOption);
 
-				var data = {distance: distanceOption, x: null, y: null};
+				var deferred = $.Deferred();
 
 				if(locationOption == "address") {
 					var location = $.codeAddress($('#locationAddress').val());
@@ -276,29 +300,27 @@
 					if(location == undefined)  return;
 
 					// location[D,k]-> (longitude,latitude)
-					data.x = location.D;
-					data.y = location.k;
+					deferred.resolve({
+						distance: distanceOption,
+						x: location.D,
+						y: location.k
+					});
+				} else if(locationOption == "current") {
+					navigator.geolocation.getCurrentPosition(function(position) {
+						deferred.resolve({
+							distance: distanceOption,
+							x: position.coords.longitude,
+							y: position.coords.latitude
+						});
+					});
 				}
-				/*else if(locationOption == "current") {
-					navigator.geolocation.getCurrentPosition($.currentLocation); //$.currentLocation();
-					data.x = position.coords.longitude;
-					 data.y = position.coords.latitude;
-				}*/
 
-				var clientLocation = new google.maps.LatLng(data.y, data.x);
-				$('#jqueryMap').gmap('addShape', 'Circle', {
-					'strokeWeight': 0,
-					'fillColor': "#008595",
-					'fillOpacity': 0.25,
-					'center': clientLocation,
-					'radius': data.distance,
-					'clickable': false
+				deferred.done(function(data) {
+					var center = new google.maps.LatLng(data.y, data.x);
+					var jsonString = JSON.stringify(data);
+//					console.log(jsonString);
+					$.getDisasters('/findDisasters', 'jsonRequest=' + jsonString, {center: center, zoom: 8, bounds: true, distance: data.distance});
 				});
-
-				var jsonString = JSON.stringify(data);
-				console.log(jsonString);
-
-//				$.getDisasters('/findDisasters', 'jsonRequest=' + jsonString, clientLocation);
 			});
 		});
 	</script>
