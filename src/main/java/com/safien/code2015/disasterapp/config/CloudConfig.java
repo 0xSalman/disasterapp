@@ -1,5 +1,6 @@
 package com.safien.code2015.disasterapp.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.cloud.config.java.AbstractCloudConfig;
@@ -17,12 +18,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Profile("cloud")
 public class CloudConfig extends AbstractCloudConfig {
 
+	@Autowired
+	AppConfig appConfig;
+
 	@Bean
 	public MongoDbFactory mongoDbFactory() {
 
 		CloudFactory cloudFactory = new CloudFactory();
 		Cloud cloud = cloudFactory.getCloud();
-		MongoServiceInfo serviceInfo = (MongoServiceInfo) cloud.getServiceInfo("mongodb");
+		MongoServiceInfo serviceInfo = (MongoServiceInfo) cloud.getServiceInfo(appConfig.getCloudDBService());
 		String serviceID = serviceInfo.getId();
 		return connectionFactory().mongoDbFactory(serviceID);
 	}
