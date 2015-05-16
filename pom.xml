@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.safien.code2015</groupId>
-    <artifactId>disasterapp</artifactId>
+    <artifactId>disasters</artifactId>
     <version>1.0</version>
 
     <packaging>jar</packaging>
