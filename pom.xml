@@ -15,7 +15,6 @@
         <spring.version>4.1.4.RELEASE</spring.version>
 	    <tomcat.version>8.0.8</tomcat.version>
         <java.version>1.7</java.version>
-	    <cloud.service.version>1.1.0.RELEASE</cloud.service.version>
     </properties>
 
     <parent>
@@ -55,19 +54,9 @@
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-            <version>${cloud.service.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-spring-service-connector</artifactId>
-            <version>${cloud.service.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>net.sf.supercsv</groupId>
@@ -110,6 +99,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>

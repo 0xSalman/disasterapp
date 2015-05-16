@@ -20,22 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.supercsv.cellprocessor.Optional;
-import org.supercsv.cellprocessor.ParseDate;
-import org.supercsv.cellprocessor.ParseDouble;
-import org.supercsv.cellprocessor.ParseInt;
-import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.io.CsvBeanReader;
-import org.supercsv.io.ICsvBeanReader;
-import org.supercsv.prefs.CsvPreference;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by salman on 2014-11-15.
@@ -55,11 +42,7 @@ public class IndexController {
 		return "index.html";
 	}
 
-//    @RequestMapping(value = "/register", method = RequestMethod.POST, headers = "Accept=application/json")
-//    @RequestMapping(value = "/login/{username}:{password}", method = RequestMethod.GET, produces = "application/json")
-
-
-	@RequestMapping(value = "loaddata", method = RequestMethod.GET)
+	/*@RequestMapping(value = "loaddata", method = RequestMethod.GET)
 	public String loadData() {
 
 		try {
@@ -123,7 +106,7 @@ public class IndexController {
 			logger.error("Error - ", e);
 			return "Failed to upload data to database";
 		}
-	}
+	}*/
 
 	@RequestMapping(value = "/findDisasters", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
